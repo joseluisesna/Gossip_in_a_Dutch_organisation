@@ -1,14 +1,15 @@
-################################################################################
+########################################################################################################################
 ## THE EFFECTS OF GOSSIP ON FRIENDSHIP IN A DUTCH CHILDCARE ORGANISATION
 ## Data tidying
 ## R script written by J. Luis Estevez (University of Groningen)
 ## Date: June 1st, 2019
-################################################################################
+########################################################################################################################
 
 # R PACKAGES REQUIRED
 library(readxl)
+library(igraph)
 
-################################################################################
+########################################################################################################################
 
 # DATA LOADING
 covariates <- list()
@@ -37,7 +38,7 @@ comm[['A']] <- read_excel('comm_w1.xlsx',sheet='A',col_names=TRUE,na='NA')[,-1]
 comm[['B']] <- read_excel('comm_w1.xlsx',sheet='B',col_names=TRUE,na='NA')[,-1]
 comm[['C']] <- read_excel('comm_w1.xlsx',sheet='C',col_names=TRUE,na='NA')[,-1]
 
-################################################################################
+########################################################################################################################
 
 # DATA TIDYING
 # Some variables defined as factors
@@ -94,7 +95,7 @@ for(x in seq_along(gossip)){
                                       gossip[[x]]$target %in% bd,FALSE,TRUE),]
 }
 
-################################################################################
+########################################################################################################################
 
 # TRANSFORMATIONS
 
@@ -197,8 +198,7 @@ for(x in seq_along(friends2)){
   friends_35[[x]][od,] <- friends_00[[x]][od,]
 }
 
-friendsM <- list(friends_00,friends_05,friends_10,friends_15,friends_20,
-                 friends_25,friends_30,friends_35)
+friendsM <- list(friends_00,friends_05,friends_10,friends_15,friends_20,friends_25,friends_30,friends_35)
 names(friendsM) <- c(0,5,10,15,20,25,30,35)
 rm(friends_00);rm(friends_05);rm(friends_10);rm(friends_15)
 rm(friends_20);rm(friends_25);rm(friends_30);rm(friends_35)
@@ -222,11 +222,11 @@ comm <- lapply(comm,dichotomise,zero=0,one=98,na=97)
 
 # Addition of the structural missing
 # All nodes per unit (no matter if they stayed, left, or enrolled between waves)
-unitA <- sort(union(covariates$W1[covariates$W1$setting=='Unit A',]$ID,
+unitA <- sort(base::union(covariates$W1[covariates$W1$setting=='Unit A',]$ID,
                     covariates$W2[covariates$W2$setting=='Unit A',]$ID))
-unitB <- sort(union(covariates$W1[covariates$W1$setting=='Unit B',]$ID,
+unitB <- sort(base::union(covariates$W1[covariates$W1$setting=='Unit B',]$ID,
                     covariates$W2[covariates$W2$setting=='Unit B',]$ID))
-unitC <- sort(union(covariates$W1[covariates$W1$setting=='Unit C',]$ID,
+unitC <- sort(base::union(covariates$W1[covariates$W1$setting=='Unit C',]$ID,
                     covariates$W2[covariates$W2$setting=='Unit C',]$ID))
 
 # Function to enlarge matrices
@@ -250,24 +250,17 @@ comm$A <- enlarge(comm$A,unitA,NA)
 comm$B <- enlarge(comm$B,unitB,NA)
 comm$C <- enlarge(comm$C,unitC,NA)
 
-################################################################################
+########################################################################################################################
 
 # GOSSIP, DATA TRANSFORMATIONS
 
 # Projections: Receiver-target gossip networks (positive and negative separately)
-library(igraph)
-gossip$Ap <- as.matrix(get.adjacency(graph.data.frame(gossip$A[gossip$A$tone == '+',
-                                                               c('receiver','target')])))
-gossip$An <- as.matrix(get.adjacency(graph.data.frame(gossip$A[gossip$A$tone %in% c('-','mix'),
-                                                               c('receiver','target')])))
-gossip$Bp <- as.matrix(get.adjacency(graph.data.frame(gossip$B[gossip$B$tone == '+',
-                                                               c('receiver','target')])))
-gossip$Bn <- as.matrix(get.adjacency(graph.data.frame(gossip$B[gossip$B$tone %in% c('-','mix'),
-                                                               c('receiver','target')])))
-gossip$Cp <- as.matrix(get.adjacency(graph.data.frame(gossip$C[gossip$C$tone == '+',
-                                                               c('receiver','target')])))
-gossip$Cn <- as.matrix(get.adjacency(graph.data.frame(gossip$C[gossip$C$tone %in% c('-','mix'),
-                                                               c('receiver','target')])))
+gossip$Ap <- as.matrix(get.adjacency(graph.data.frame(gossip$A[gossip$A$tone == '+',c('receiver','target')])))
+gossip$An <- as.matrix(get.adjacency(graph.data.frame(gossip$A[gossip$A$tone %in% c('-','mix'),c('receiver','target')])))
+gossip$Bp <- as.matrix(get.adjacency(graph.data.frame(gossip$B[gossip$B$tone == '+',c('receiver','target')])))
+gossip$Bn <- as.matrix(get.adjacency(graph.data.frame(gossip$B[gossip$B$tone %in% c('-','mix'),c('receiver','target')])))
+gossip$Cp <- as.matrix(get.adjacency(graph.data.frame(gossip$C[gossip$C$tone == '+',c('receiver','target')])))
+gossip$Cn <- as.matrix(get.adjacency(graph.data.frame(gossip$C[gossip$C$tone %in% c('-','mix'),c('receiver','target')])))
 
 # Nodes present in wave 1
 unitA1 <- as.character(covariates$W1[covariates$W1$setting == 'Unit A',]$ID)
@@ -311,12 +304,11 @@ for(i in 4:length(gossip)){
   diag(gossip[[i]]) <- NA
 }
 
-################################################################################
+########################################################################################################################
 
-rm(prop_corr);rm(bd);rm(i);rm(j);rm(miss_imp);rm(miss_noimp);rm(od);rm(ties_imp)
-rm(ties_noimp);rm(x);rm(y)
+rm(prop_corr);rm(bd);rm(i);rm(j);rm(miss_imp);rm(miss_noimp);rm(od);rm(ties_imp);rm(ties_noimp);rm(x);rm(y)
 
-################################################################################
+########################################################################################################################
 
 # Save image
 save.image('tidieddata.RData')
