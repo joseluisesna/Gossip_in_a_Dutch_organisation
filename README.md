@@ -1,1 +1,1 @@
-# Gossip_in_a_Dutch_organisation
+# Gossip in a Dutch organisation
