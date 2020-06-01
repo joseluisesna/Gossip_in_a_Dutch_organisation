@@ -2,7 +2,7 @@
 ## THE EFFECTS OF GOSSIP ON FRIENDSHIP IN A DUTCH CHILDCARE ORGANISATION
 ## Data tidying
 ## R script written by J. Luis Estevez (University of Groningen)
-## Date: June 24th, 2019
+## Date: June 1st, 2019
 ################################################################################
 
 # R PACKAGES REQUIRED
