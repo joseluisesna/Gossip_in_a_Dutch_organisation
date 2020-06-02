@@ -149,7 +149,7 @@ for(i in seq_along(covariates2$ID)){
 }
 
 covariates2 <- covariates2[,c('ID','setting','gender.x','age.x','tenure','workhours.x','team.x','team.y')]
-names(covariates2) <- c('ID','0setting','gender','age','tenure','workhours','team','team2')
+names(covariates2) <- c('ID','setting','gender','age','tenure','workhours','team','team2')
 
 ########################################################################################################################
 
