@@ -360,11 +360,11 @@ bivariate.desc <- function(friend1,friend2,spg,sng,cpg,cng,mix){
 
 # Evolution of the network by type of gossip
 bivariate.desc(friend1=friendsM$`15`$AW1,friend2=friendsM$`15`$AW2,
-               spg=gossipS$Ap,cpg=gossipS$An,sng=gossipC$Ap,cng=gossipC$An,mix=gossipI$A)
+               spg=gossipS$Ap,cpg=gossipC$Ap,sng=gossipS$An,cng=gossipC$An,mix=gossipI$A)
 bivariate.desc(friend1=friendsM$`15`$BW1,friend2=friendsM$`15`$BW2,
-               spg=gossipS$Bp,cpg=gossipS$Bn,sng=gossipC$Bp,cng=gossipC$Bn,mix=gossipI$B)
+               spg=gossipS$Bp,cpg=gossipC$Bp,sng=gossipS$Bn,cng=gossipC$Bn,mix=gossipI$B)
 bivariate.desc(friend1=friendsM$`15`$CW1,friend2=friendsM$`15`$CW2,
-               spg=gossipS$Cp,cpg=gossipS$Cn,sng=gossipC$Cp,cng=gossipC$Cn,mix=gossipI$C)
+               spg=gossipS$Cp,cpg=gossipC$Cp,sng=gossipS$Cn,cng=gossipC$Cn,mix=gossipI$C)
 
 ################################################################################
 
