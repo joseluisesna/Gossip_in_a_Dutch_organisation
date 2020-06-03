@@ -366,7 +366,7 @@ bivariate.desc(friend1=friendsM$`15`$BW1,friend2=friendsM$`15`$BW2,
 bivariate.desc(friend1=friendsM$`15`$CW1,friend2=friendsM$`15`$CW2,
                spg=gossipS$Cp,cpg=gossipC$Cp,sng=gossipS$Cn,cng=gossipC$Cn,mix=gossipI$C)
 
-################################################################################
+########################################################################################################################
 
 # Save image
 save.image('siena.RData')
