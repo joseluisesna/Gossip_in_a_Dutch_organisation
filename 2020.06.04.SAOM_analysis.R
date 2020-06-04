@@ -84,11 +84,11 @@ ggplot(data=plotdata,aes(x=answer,y=changes,colour=Setting)) +
 
 # OLS regression
 regA <- glm(changes~gender+age+tenure+workhours+outdegree+indegree+ptarg+ntarg+team,
-            data=covA,family=gaussian(link='identity'))
+            data=covariates2[covariates2$setting == 'Unit A',],family=gaussian(link='identity'))
 regB <- glm(changes~gender+age+tenure+workhours+outdegree+indegree+ptarg+ntarg+team,
-            data=covB,family=gaussian(link='identity'))
+            data=covariates2[covariates2$setting == 'Unit B',],family=gaussian(link='identity'))
 regC <- glm(changes~gender+age+tenure+workhours+outdegree+indegree+ptarg+ntarg+team,
-            data=covC,family=gaussian(link='identity'))
+            data=covariates2[covariates2$setting == 'Unit C',],family=gaussian(link='identity'))
 summary(regA);summary(regB);summary(regC)
 
 ########################################################################################################################
