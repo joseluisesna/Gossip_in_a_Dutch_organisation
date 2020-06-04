@@ -294,12 +294,15 @@ sig <- function(x){
 
 outcome <- function(output){
   tab <- data.frame(effect=output[[1]]$effects$effectName,
-                    theta_A=round(output[[1]]$theta,2),SE_A=round(output[[1]]$se,2),p_A=2*(1-pnorm(abs(output[[1]]$theta)/output[[1]]$se)),
-                    theta_B=round(output[[2]]$theta,2),SE_B=round(output[[2]]$se,2),p_B=2*(1-pnorm(abs(output[[2]]$theta)/output[[2]]$se)),
-                    theta_C=round(output[[3]]$theta,2),SE_C=round(output[[3]]$se,2),p_C=2*(1-pnorm(abs(output[[3]]$theta)/output[[3]]$se)))
-  tab$p_A <- sig(tab$p_A)
-  tab$p_B <- sig(tab$p_B)
-  tab$p_C <- sig(tab$p_C)
+                    theta_A=round(output[[1]]$theta,2),SE_A=round(output[[1]]$se,2),
+                    p_A=round(2*(1-pnorm(abs(output[[1]]$theta)/output[[1]]$se)),3),
+                    s_A=sig(2*(1-pnorm(abs(output[[1]]$theta)/output[[1]]$se))),
+                    theta_B=round(output[[2]]$theta,2),SE_B=round(output[[2]]$se,2),
+                    p_B=round(2*(1-pnorm(abs(output[[2]]$theta)/output[[2]]$se)),3),
+                    s_B=sig(2*(1-pnorm(abs(output[[2]]$theta)/output[[2]]$se))),
+                    theta_C=round(output[[3]]$theta,2),SE_C=round(output[[3]]$se,2),
+                    p_C=round(2*(1-pnorm(abs(output[[3]]$theta)/output[[3]]$se)),3),
+                    s_C=sig(2*(1-pnorm(abs(output[[3]]$theta)/output[[3]]$se))))
   return(tab)
 }
 
