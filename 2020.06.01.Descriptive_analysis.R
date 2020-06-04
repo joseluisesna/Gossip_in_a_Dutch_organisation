@@ -153,7 +153,7 @@ names(covariates2) <- c('ID','setting','gender','age','tenure','workhours','team
 
 ########################################################################################################################
 
-# DESCRIPTIVE ANALYSIS OF FRIENDSHIP (friends_15): CROSS-SECTIONAL
+# DESCRIPTIVE ANALYSIS OF FRIENDSHIP (friends_20): CROSS-SECTIONAL
 
 describeNet <- function(mtx,nodes){
   x <- array()
@@ -176,42 +176,42 @@ fri_desc <- as.data.frame(matrix(NA,nrow=10,ncol=6,
                                                  'outdegree_m','outdegree_sd','indegree_m','indegree_sd'),
                                                c('A1','A2','B1','B2','C1','C2'))))
 
-fri_desc$A1 <- describeNet(friendsM$`15`$AW1,unitA1)
-fri_desc$A2 <- describeNet(friendsM$`15`$AW2,unitA2)
-fri_desc$B1 <- describeNet(friendsM$`15`$BW1,unitB1)
-fri_desc$B2 <- describeNet(friendsM$`15`$BW2,unitB2)
-fri_desc$C1 <- describeNet(friendsM$`15`$CW1,unitC1)
-fri_desc$C2 <- describeNet(friendsM$`15`$CW2,unitC2)
+fri_desc$A1 <- describeNet(friendsM$`20`$AW1,unitA1)
+fri_desc$A2 <- describeNet(friendsM$`20`$AW2,unitA2)
+fri_desc$B1 <- describeNet(friendsM$`20`$BW1,unitB1)
+fri_desc$B2 <- describeNet(friendsM$`20`$BW2,unitB2)
+fri_desc$C1 <- describeNet(friendsM$`20`$CW1,unitC1)
+fri_desc$C2 <- describeNet(friendsM$`20`$CW2,unitC2)
 
 write.table(fri_desc,'fri_desc.csv',sep=';')
 
 ########################################################################################################################
 
-# DESCRIPTIVE ANALYSIS OF FRIENDSHIP (friends_15): LONGITUDINAL
+# DESCRIPTIVE ANALYSIS OF FRIENDSHIP (friends_20): LONGITUDINAL
 
-table(friendsM$`15`$AW1,friendsM$`15`$AW2,useNA='always')
-table(friendsM$`15`$BW1,friendsM$`15`$BW2,useNA='always')
-table(friendsM$`15`$CW1,friendsM$`15`$CW2,useNA='always')
+table(friendsM$`20`$AW1,friendsM$`20`$AW2,useNA='always')
+table(friendsM$`20`$BW1,friendsM$`20`$BW2,useNA='always')
+table(friendsM$`20`$CW1,friendsM$`20`$CW2,useNA='always')
 
 # Jaccard index
 Jaccard <- function(changetable) {
   return(changetable['1','1']/(changetable['0','1']+changetable['1','0']+changetable['1','1']))
 }
 
-Jaccard(table(friendsM$`15`$AW1,friendsM$`15`$AW2))
-Jaccard(table(friendsM$`15`$BW1,friendsM$`15`$BW2))
-Jaccard(table(friendsM$`15`$CW1,friendsM$`15`$CW2))
+Jaccard(table(friendsM$`20`$AW1,friendsM$`20`$AW2))
+Jaccard(table(friendsM$`20`$BW1,friendsM$`20`$BW2))
+Jaccard(table(friendsM$`20`$CW1,friendsM$`20`$CW2))
 
 # Ties changed made per subject
-A_change <- friendsM$`15`$AW1 + friendsM$`15`$AW2
+A_change <- friendsM$`20`$AW1 + friendsM$`20`$AW2
 A_change <- dichotomise(A_change,zero=c(0,2),one=1,na=NA)
 A_change <- rowSums(A_change,na.rm=TRUE)
 
-B_change <- friendsM$`15`$BW1 + friendsM$`15`$BW2
+B_change <- friendsM$`20`$BW1 + friendsM$`20`$BW2
 B_change <- dichotomise(B_change,zero=c(0,2),one=1,na=NA)
 B_change <- rowSums(B_change,na.rm=TRUE)
 
-C_change <- friendsM$`15`$CW1 + friendsM$`15`$CW2
+C_change <- friendsM$`20`$CW1 + friendsM$`20`$CW2
 C_change <- dichotomise(C_change,zero=c(0,2),one=1,na=NA)
 C_change <- rowSums(C_change,na.rm=TRUE)
 
@@ -359,11 +359,11 @@ bivariate.desc <- function(friend1,friend2,spg,sng,cpg,cng,mix){
 }
 
 # Evolution of the network by type of gossip
-bivariate.desc(friend1=friendsM$`15`$AW1,friend2=friendsM$`15`$AW2,
+bivariate.desc(friend1=friendsM$`20`$AW1,friend2=friendsM$`20`$AW2,
                spg=gossipS$Ap,cpg=gossipC$Ap,sng=gossipS$An,cng=gossipC$An,mix=gossipI$A)
-bivariate.desc(friend1=friendsM$`15`$BW1,friend2=friendsM$`15`$BW2,
+bivariate.desc(friend1=friendsM$`20`$BW1,friend2=friendsM$`20`$BW2,
                spg=gossipS$Bp,cpg=gossipC$Bp,sng=gossipS$Bn,cng=gossipC$Bn,mix=gossipI$B)
-bivariate.desc(friend1=friendsM$`15`$CW1,friend2=friendsM$`15`$CW2,
+bivariate.desc(friend1=friendsM$`20`$CW1,friend2=friendsM$`20`$CW2,
                spg=gossipS$Cp,cpg=gossipC$Cp,sng=gossipS$Cn,cng=gossipC$Cn,mix=gossipI$C)
 
 ########################################################################################################################
