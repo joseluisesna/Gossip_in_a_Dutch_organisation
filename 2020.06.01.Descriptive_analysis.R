@@ -165,15 +165,18 @@ describeNet <- function(mtx,nodes){
   x[5] <- igraph::transitivity(graph_from_adjacency_matrix(mtx)) # transitiviy
   x[6] <- sum(sna::degree(mtx,cmode='freeman') == 0) # isolates 
   x[7] <- mean(sna::degree(mtx,cmode='outdegree')) # outdegree
-  x[8] <- sd(sna::degree(mtx,cmode='outdegree')) 
-  x[9] <- mean(sna::degree(mtx,cmode='indegree')) # indegree 
-  x[10] <- sd(sna::degree(mtx,cmode='indegree'))  
+  x[8] <- min(sna::degree(mtx,cmode='outdegree')) 
+  x[9] <- max(sna::degree(mtx,cmode='outdegree')) 
+  x[10] <- mean(sna::degree(mtx,cmode='indegree')) # indegree 
+  x[11] <- min(sna::degree(mtx,cmode='indegree'))  
+  x[12] <- max(sna::degree(mtx,cmode='indegree'))  
   return(x)
 }
 
-fri_desc <- as.data.frame(matrix(NA,nrow=10,ncol=6,
+fri_desc <- as.data.frame(matrix(NA,nrow=12,ncol=6,
                                  dimnames=list(c('n','missing','density','recip','trans','isolates',
-                                                 'outdegree_m','outdegree_sd','indegree_m','indegree_sd'),
+                                                 'outdegree_m','outdegree_min','outdegree_max',
+                                                 'indegree_m','indegree_min','indegree_max'),
                                                c('A1','A2','B1','B2','C1','C2'))))
 
 fri_desc$A1 <- describeNet(friendsM$`20`$AW1,unitA1)
