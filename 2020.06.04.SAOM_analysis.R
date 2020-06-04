@@ -36,12 +36,12 @@ covC$ptarg <- gossip_deg$Cp
 covC$ntarg <- gossip_deg$Cn
 
 # Out and in- friendship degree in wave 1
-covA$outdegree <- rowSums(friendsM$`15`$AW1,na.rm=TRUE)
-covA$indegree <- colSums(friendsM$`15`$AW1,na.rm=TRUE)
-covB$outdegree <- rowSums(friendsM$`15`$BW1,na.rm=TRUE)
-covB$indegree <- colSums(friendsM$`15`$BW1,na.rm=TRUE)
-covC$outdegree <- rowSums(friendsM$`15`$CW1,na.rm=TRUE)
-covC$indegree <- colSums(friendsM$`15`$CW1,na.rm=TRUE)
+covA$outdegree <- rowSums(friendsM$`20`$AW1,na.rm=TRUE)
+covA$indegree <- colSums(friendsM$`20`$AW1,na.rm=TRUE)
+covB$outdegree <- rowSums(friendsM$`20`$BW1,na.rm=TRUE)
+covB$indegree <- colSums(friendsM$`20`$BW1,na.rm=TRUE)
+covC$outdegree <- rowSums(friendsM$`20`$CW1,na.rm=TRUE)
+covC$indegree <- colSums(friendsM$`20`$CW1,na.rm=TRUE)
 
 # One single dataset for all thre units
 covariates2 <- rbind(covA,covB,covC)
@@ -199,9 +199,6 @@ for(i in 1:length(sienaObj)){
 
 ########################################################################################################################
 
-# RESULTS ONLY FOR CUT-OFF 15
- sienaObj <- sienaObj[c(2,8,14)]
-
 # SAOM - MODEL SPECIFICATION
 siena_effects <- vector('list',length(sienaObj))
 for(i in 1:length(sienaObj)){
@@ -275,6 +272,8 @@ save.image('siena_results.RData')
 
 ########################################################################################################################
 
+# PRESENTATION OF RESULTS
+
 # Results as table
 sig <- function(x){
   for(i in 1:length(x)){
@@ -304,6 +303,7 @@ outcome <- function(output){
   return(tab)
 }
 
-write.table(outcome(siena_models1),'siena_models1.csv',sep=';')
-write.table(outcome(siena_models2),'siena_models2.csv',sep=';')
-write.table(outcome(siena_models3),'siena_models3.csv',sep=';')
+# Results for cut-off 20
+write.table(outcome(siena_models1[c(3,9,15)]),'siena_models1_20.csv',sep=';')
+write.table(outcome(siena_models2[c(3,9,15)]),'siena_models2_20.csv',sep=';')
+write.table(outcome(siena_models3[c(3,9,15)]),'siena_models3_20.csv',sep=';')
