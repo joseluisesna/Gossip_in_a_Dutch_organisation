@@ -1,6 +1,6 @@
 ########################################################################################################################
 ## THE EFFECTS OF GOSSIP ON FRIENDSHIP IN A DUTCH CHILDCARE ORGANISATION
-## Descriptive analysis
+## SAOM analysis
 ## R script written by J. Luis Estevez (University of Groningen)
 ## Date: June 4th, 2019
 ########################################################################################################################
