@@ -1,6 +1,6 @@
 ########################################################################################################################
 ## THE EFFECTS OF GOSSIP ON FRIENDSHIP IN A DUTCH CHILDCARE ORGANISATION
-## SAOM analysis
+## Descriptive analysis
 ## R script written by J. Luis Estevez (University of Groningen)
 ## Date: June 4th, 2019
 ########################################################################################################################
@@ -276,20 +276,10 @@ save.image('siena_results.RData')
 
 # Results as table
 sig <- function(x){
-  for(i in 1:length(x)){
-    if(!is.na(x[i]) & x[i] < .001){
-      x[i] <- '***'
-    } else if(!is.na(x[i]) & x[i] < .01){
-      x[i] <- '**'
-    } else if(!is.na(x[i]) & x[i] < .05){
-      x[i] <- '*'
-    } else if(!is.na(x[i]) & x[i] < .10){
-      x[i] <- '.'
-    } else {
-      x[i] <- ' '
-    }
-  }
-  return(x)
+  ifelse(x < .001,'***',
+         ifelse(x < .01,'**',
+                ifelse(x < .05,'*',
+                       ifelse(x < .1,'.',''))))
 }
 
 outcome <- function(output){
@@ -297,9 +287,11 @@ outcome <- function(output){
                     theta_A=round(output[[1]]$theta,2),SE_A=round(output[[1]]$se,2),
                     p_A=round(2*(1-pnorm(abs(output[[1]]$theta)/output[[1]]$se)),3),
                     s_A=sig(2*(1-pnorm(abs(output[[1]]$theta)/output[[1]]$se))),
+                    
                     theta_B=round(output[[2]]$theta,2),SE_B=round(output[[2]]$se,2),
                     p_B=round(2*(1-pnorm(abs(output[[2]]$theta)/output[[2]]$se)),3),
                     s_B=sig(2*(1-pnorm(abs(output[[2]]$theta)/output[[2]]$se))),
+                    
                     theta_C=round(output[[3]]$theta,2),SE_C=round(output[[3]]$se,2),
                     p_C=round(2*(1-pnorm(abs(output[[3]]$theta)/output[[3]]$se)),3),
                     s_C=sig(2*(1-pnorm(abs(output[[3]]$theta)/output[[3]]$se))))
