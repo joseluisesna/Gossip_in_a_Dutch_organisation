@@ -247,15 +247,15 @@ nrow(gossip$C[gossip$C$tone == 'mix',])
 jpeg(filename='Figure1.jpeg',width=9,height=3.5,units='in',res=1000)
 par(mfrow=c(1,3))
 scatter3D(x=gossip$A$receiver,y=gossip$A$sender,z=gossip$A$target,
-          col=ifelse(gossip$A$tone=='+','green',ifelse(gossip$A$tone=='-','red','orange')),alpha=2/3,
+          col=ifelse(gossip$A$tone=='+','forestgreen',ifelse(gossip$A$tone=='-','red','darkorange2')),alpha=2/3,
           main='Unit A',xlab='Receiver',ylab='Sender',zlab='Target',
           bty='g',pch=16,cex=1,colkey=FALSE,theta=45,phi=30)
 scatter3D(x=gossip$B$receiver,y=gossip$B$sender,z=gossip$B$target,
-          col=ifelse(gossip$B$tone=='+','green',ifelse(gossip$B$tone=='-','red','orange')),alpha=2/3,
+          col=ifelse(gossip$B$tone=='+','forestgreen',ifelse(gossip$B$tone=='-','red','darkorange2')),alpha=2/3,
           main='Unit B',xlab='Receiver',ylab='Sender',zlab='Target',
           bty='g',pch=16,cex=1,colkey=FALSE,theta=45,phi=30)
 scatter3D(x=gossip$C$receiver,y=gossip$C$sender,z=gossip$C$target,
-          col=ifelse(gossip$C$tone=='+','green',ifelse(gossip$C$tone=='-','red','orange')),alpha=2/3,
+          col=ifelse(gossip$C$tone=='+','forestgreen',ifelse(gossip$C$tone=='-','red','darkorange2')),alpha=2/3,
           main='Unit C',xlab='Receiver',ylab='Sender',zlab='Target',
           bty='g',pch=16,cex=1,colkey=FALSE,theta=45,phi=30)
 dev.off()
@@ -263,7 +263,7 @@ dev.off()
 # Projections
 gossipS <- gossip[4:9] # Simple gossip
 gossipC <- gossipS # Complex gossip
-gossipI <- list() # Incongruent gossip
+gossipI <- list() # Incongruent gossipa
 
 gossipS <- lapply(gossipS,dichotomise,zero=0,one=1:10,na=NA)
 gossipI[['A']] <- dichotomise(gossipS$Ap + gossipS$An,zero=0:1,one=2,na=NA)
