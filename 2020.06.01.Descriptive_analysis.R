@@ -9,6 +9,7 @@
 library(tidyverse)
 library(sna)
 library(igraph)
+library(plot3D)
 
 ########################################################################################################################
 
@@ -229,11 +230,37 @@ sum(A_change > 0);sum(B_change > 0);sum(C_change > 0)
 
 # DESCRIPTIVE ANALYSIS OF GOSSIP
 
-# Number of (positive/negative) gossip triads per unit
-sum(gossip$Ap,na.rm=TRUE);sum(gossip$An,na.rm=TRUE)
-sum(gossip$Bp,na.rm=TRUE);sum(gossip$Bn,na.rm=TRUE)
-sum(gossip$Cp,na.rm=TRUE);sum(gossip$Cn,na.rm=TRUE)
+# Number of (positive/negative/mixed) gossip triads per unit
+nrow(gossip$A[gossip$A$tone == '+',])
+nrow(gossip$A[gossip$A$tone == '-',])
+nrow(gossip$A[gossip$A$tone == 'mix',])
 
+nrow(gossip$B[gossip$B$tone == '+',])
+nrow(gossip$B[gossip$B$tone == '-',])
+nrow(gossip$B[gossip$B$tone == 'mix',])
+
+nrow(gossip$C[gossip$C$tone == '+',])
+nrow(gossip$C[gossip$C$tone == '-',])
+nrow(gossip$C[gossip$C$tone == 'mix',])
+
+# Visualisation of the gossip triads
+jpeg(filename='Figure1.jpeg',width=9,height=3.5,units='in',res=1000)
+par(mfrow=c(1,3))
+scatter3D(x=gossip$A$receiver,y=gossip$A$sender,z=gossip$A$target,
+          col=ifelse(gossip$A$tone=='+','green',ifelse(gossip$A$tone=='-','red','orange')),alpha=2/3,
+          main='Unit A',xlab='Receiver',ylab='Sender',zlab='Target',
+          bty='g',pch=16,cex=1,colkey=FALSE,theta=45,phi=30)
+scatter3D(x=gossip$B$receiver,y=gossip$B$sender,z=gossip$B$target,
+          col=ifelse(gossip$B$tone=='+','green',ifelse(gossip$B$tone=='-','red','orange')),alpha=2/3,
+          main='Unit B',xlab='Receiver',ylab='Sender',zlab='Target',
+          bty='g',pch=16,cex=1,colkey=FALSE,theta=45,phi=30)
+scatter3D(x=gossip$C$receiver,y=gossip$C$sender,z=gossip$C$target,
+          col=ifelse(gossip$C$tone=='+','green',ifelse(gossip$C$tone=='-','red','orange')),alpha=2/3,
+          main='Unit C',xlab='Receiver',ylab='Sender',zlab='Target',
+          bty='g',pch=16,cex=1,colkey=FALSE,theta=45,phi=30)
+dev.off()
+
+# Projections
 gossipS <- gossip[4:9] # Simple gossip
 gossipC <- gossipS # Complex gossip
 gossipI <- list() # Incongruent gossip
