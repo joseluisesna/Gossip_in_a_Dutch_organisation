@@ -397,6 +397,13 @@ bivariate.desc <- function(friend1,friend2,spg,sng,cpg,cng,mix){
                          spg=gossipS$Cp,cpg=gossipC$Cp,sng=gossipS$Cn,cng=gossipC$Cn,mix=gossipI$C))
 
 # Extraction of raw data (from bivariate analysis)
+biv_1[,1] <- biv_1[,1] - biv_1[,2]
+biv_1[,3] <- biv_1[,3] - biv_1[,4]
+biv_2[,1] <- biv_2[,1] - biv_2[,2]
+biv_2[,3] <- biv_2[,3] - biv_2[,4]
+biv_3[,1] <- biv_3[,1] - biv_3[,2]
+biv_3[,3] <- biv_3[,3] - biv_3[,4]
+
 to_raw <- function(x){
   x <- cbind(Change=rep(rownames(x),x[,7]),
              Gossip=c(rep(colnames(x[,-7]),x[1,1:6]),rep(colnames(x[,-7]),x[2,1:6]),
@@ -424,12 +431,14 @@ no.background <- theme_bw()+
   theme(strip.text.x=element_text(colour='white',face='bold'))+
   theme(strip.background=element_rect(fill='black'))
 
+jpeg(filename='Figure3.jpeg',width=9,height=4,units='in',res=1000)
 ggplot(data=biv)+
   geom_bar(aes(x=Change,fill=Gossip),position='fill',colour='black')+
   facet_wrap(~Unit)+
-  scale_fill_manual(values = c('firebrick3','firebrick1','darkorange','gray98','chartreuse3','forestgreen'))+
+  scale_fill_manual(values = c('firebrick3','firebrick1','orange','gray98','chartreuse3','forestgreen'))+
   xlab('Friendships') + ylab('')+
   no.background
+dev.off()
 
 ########################################################################################################################
 
