@@ -389,12 +389,47 @@ bivariate.desc <- function(friend1,friend2,spg,sng,cpg,cng,mix){
 }
 
 # Evolution of the network by type of gossip
-bivariate.desc(friend1=friendsM$`20`$AW1,friend2=friendsM$`20`$AW2,
-               spg=gossipS$Ap,cpg=gossipC$Ap,sng=gossipS$An,cng=gossipC$An,mix=gossipI$A)
-bivariate.desc(friend1=friendsM$`20`$BW1,friend2=friendsM$`20`$BW2,
-               spg=gossipS$Bp,cpg=gossipC$Bp,sng=gossipS$Bn,cng=gossipC$Bn,mix=gossipI$B)
-bivariate.desc(friend1=friendsM$`20`$CW1,friend2=friendsM$`20`$CW2,
-               spg=gossipS$Cp,cpg=gossipC$Cp,sng=gossipS$Cn,cng=gossipC$Cn,mix=gossipI$C)
+(biv_1 <- bivariate.desc(friend1=friendsM$`20`$AW1,friend2=friendsM$`20`$AW2,
+                         spg=gossipS$Ap,cpg=gossipC$Ap,sng=gossipS$An,cng=gossipC$An,mix=gossipI$A))
+(biv_2 <- bivariate.desc(friend1=friendsM$`20`$BW1,friend2=friendsM$`20`$BW2,
+                         spg=gossipS$Bp,cpg=gossipC$Bp,sng=gossipS$Bn,cng=gossipC$Bn,mix=gossipI$B))
+(biv_3 <- bivariate.desc(friend1=friendsM$`20`$CW1,friend2=friendsM$`20`$CW2,
+                         spg=gossipS$Cp,cpg=gossipC$Cp,sng=gossipS$Cn,cng=gossipC$Cn,mix=gossipI$C))
+
+# Extraction of raw data (from bivariate analysis)
+to_raw <- function(x){
+  x <- cbind(Change=rep(rownames(x),x[,7]),
+             Gossip=c(rep(colnames(x[,-7]),x[1,1:6]),rep(colnames(x[,-7]),x[2,1:6]),
+                      rep(colnames(x[,-7]),x[3,1:6]),rep(colnames(x[,-7]),x[4,1:6])))
+  return(as.data.frame(x))
+}
+biv <- list(biv_1,biv_2,biv_3)
+biv <- lapply(biv,to_raw)
+for(i in 1:length(biv)){
+  biv[[i]]$Unit <- paste('Unit',i)
+}
+biv <- rbind(biv[[1]],biv[[2]],biv[[3]])
+
+biv$Change <- factor(biv$Change,levels=c('0->1','1->0','1->1','0->0'),
+                     labels=c('Created','Broken','Stable','Inexistent'))
+biv$Gossip <- factor(biv$Gossip,levels=c('neg.ampl','negative','incongr','no','positive','pos.ampl'),
+                     labels=c('negative (several senders)','negative (one sender)','positive and negative',
+                              'no gossip','positive (one sender)','positive (several senders)'))
+
+# Visualisation
+no.background <- theme_bw()+
+  theme(plot.background=element_blank(),panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),panel.border=element_blank())+
+  theme(axis.line=element_line(color='black'))+
+  theme(strip.text.x=element_text(colour='white',face='bold'))+
+  theme(strip.background=element_rect(fill='black'))
+
+ggplot(data=biv)+
+  geom_bar(aes(x=Change,fill=Gossip),position='fill',colour='black')+
+  facet_wrap(~Unit)+
+  scale_fill_manual(values = c('firebrick3','firebrick1','darkorange','gray98','chartreuse3','forestgreen'))+
+  xlab('Friendships') + ylab('')+
+  no.background
 
 ########################################################################################################################
 
