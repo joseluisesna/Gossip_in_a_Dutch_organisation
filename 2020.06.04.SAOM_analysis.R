@@ -1,6 +1,6 @@
 ########################################################################################################################
 ## THE EFFECTS OF GOSSIP ON FRIENDSHIP IN A DUTCH CHILDCARE ORGANISATION
-## Descriptive analysis
+## SAOM analysis
 ## R script written by J. Luis Estevez (University of Groningen)
 ## Date: June 4th, 2019
 ########################################################################################################################
@@ -72,6 +72,7 @@ no.background <- theme_bw()+
   theme(strip.text.x=element_text(colour='white',face='bold'))+
   theme(strip.background=element_rect(fill='black'))
 
+jpeg(filename='Figure2.jpeg',width=9,height=7,units='in',res=1000)
 ggplot(data=plotdata,aes(x=answer,y=changes,colour=Setting)) +
   geom_point(size=3,colour='black',alpha=.7) + 
   geom_point(size=1.8,alpha=.9) + 
@@ -81,6 +82,7 @@ ggplot(data=plotdata,aes(x=answer,y=changes,colour=Setting)) +
   ylim(c(0,max(plotdata$changes))) +
   scale_colour_manual(values = c('chartreuse3','firebrick2','dodgerblue'))+
   no.background
+dev.off()
 
 # OLS regression
 regA <- glm(changes~gender+age+tenure+workhours+outdegree+indegree+ptarg+ntarg+team,
