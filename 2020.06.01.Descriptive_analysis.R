@@ -435,7 +435,7 @@ jpeg(filename='Figure3.jpeg',width=9,height=4,units='in',res=1000)
 ggplot(data=biv)+
   geom_bar(aes(x=Change,fill=Gossip),position='fill',colour='black')+
   facet_wrap(~Unit)+
-  scale_fill_manual(values = c('firebrick3','firebrick1','orange','gray98','chartreuse3','forestgreen'))+
+  scale_fill_manual(values = c('firebrick4','firebrick1','orange','gray98','chartreuse3','forestgreen'))+
   xlab('Friendships') + ylab('')+
   no.background
 dev.off()
