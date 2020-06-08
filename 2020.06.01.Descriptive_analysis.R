@@ -412,9 +412,17 @@ to_raw <- function(x){
 }
 biv <- list(biv_1,biv_2,biv_3)
 biv <- lapply(biv,to_raw)
+
 for(i in 1:length(biv)){
-  biv[[i]]$Unit <- paste('Unit',i)
+  if(i == 1){
+    biv[[i]]$Unit <- 'Unit A'
+  }else if(i == 2){
+    biv[[i]]$Unit <- 'Unit B'
+  }else{
+    biv[[i]]$Unit <- 'Unit C'
+  }
 }
+
 biv <- rbind(biv[[1]],biv[[2]],biv[[3]])
 
 biv$Change <- factor(biv$Change,levels=c('0->1','1->0','1->1','0->0'),
