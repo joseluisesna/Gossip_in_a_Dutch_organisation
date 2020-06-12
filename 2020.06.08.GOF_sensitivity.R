@@ -94,11 +94,9 @@ no.background <- theme_bw()+
 jpeg(filename='Figure4.jpeg',width=13,height=7,units='in',res=1000)
 ggplot(data=sens)+
   geom_hline(yintercept=0,alpha=.5)+
-  geom_errorbar(aes(x=effect,y=theta,ymin=theta-qnorm(.95)*se,ymax=theta+qnorm(.95)*se,colour=`cut-off`),
-                position=position_dodge(width=.75),size=.75,alpha=.75)+
-  geom_point(aes(x=effect,y=theta,colour=`cut-off`,shape=`cut-off`),
-             size=2.5,position=position_dodge(width=.75))+
-  scale_colour_manual(values=c('gray60','gray50','red','gray40','gray30','gray20'))+
+  geom_pointrange(aes(x=effect,y=theta,ymin=theta-qnorm(.95)*se,ymax=theta+qnorm(.95)*se,colour=`cut-off`),
+                position=position_dodge(width=.75),size=.75)+
+  scale_colour_manual(values=c('gray70','gray55','red','gray40','gray25','gray10'))+
   facet_wrap(model~unit,scales='free')+
   xlab('')+ylab('')+
   theme(axis.text.y=element_text(angle=50,hjust=1))+
