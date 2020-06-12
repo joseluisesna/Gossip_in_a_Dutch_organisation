@@ -73,7 +73,12 @@ sens <- sens[-which(sens$model == 'Model 3' & sens$effect %in% c('gos_pos','gos_
 
 sens$theta <- as.numeric(sens$theta)
 sens$se <- as.numeric(sens$se)
-sens$se <- ifelse(sens$se > 2,NA,sens$se) # if very big SE, don't plot it
+
+# if very big SE, don't plot it
+sens[sens$effect == 'gos_inco' & sens$`cut-off` == 10 & sens$unit == 'Unit A',]$se <- NA
+sens[sens$effect == 'int.  ntargets ego x gos_neg' & sens$`cut-off` == 10 & sens$unit == 'Unit B',]$se <- NA
+sens[sens$effect == 'int.  ntargets ego x gos_neg' & sens$`cut-off` == 35 & sens$unit == 'Unit C',]$se <- NA
+
 sens$effect <- factor(sens$effect,
                       levels=c('gos_pos','gos_neg','gos_inco','gos_simp_pos','gos_ampl_pos',
                                'gos_simp_neg','gos_ampl_neg',
