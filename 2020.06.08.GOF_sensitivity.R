@@ -75,6 +75,9 @@ sens$theta <- as.numeric(sens$theta)
 sens$se <- as.numeric(sens$se)
 
 # if very big SE, don't plot it
+sens[sens$effect == 'gos_inco' & sens$`cut-off` == 10 & sens$unit == 'Unit A',]$theta <- NA
+sens[sens$effect == 'int.  ntargets ego x gos_neg' & sens$`cut-off` == 10 & sens$unit == 'Unit B',]$theta <- NA
+sens[sens$effect == 'int.  ntargets ego x gos_neg' & sens$`cut-off` == 35 & sens$unit == 'Unit C',]$theta <- NA
 sens[sens$effect == 'gos_inco' & sens$`cut-off` == 10 & sens$unit == 'Unit A',]$se <- NA
 sens[sens$effect == 'int.  ntargets ego x gos_neg' & sens$`cut-off` == 10 & sens$unit == 'Unit B',]$se <- NA
 sens[sens$effect == 'int.  ntargets ego x gos_neg' & sens$`cut-off` == 35 & sens$unit == 'Unit C',]$se <- NA
