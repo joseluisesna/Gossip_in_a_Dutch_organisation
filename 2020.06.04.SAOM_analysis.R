@@ -92,6 +92,10 @@ regB <- glm(changes~gender+age+tenure+workhours+outdegree+indegree+ptarg+ntarg+t
 regC <- glm(changes~gender+age+tenure+workhours+outdegree+indegree+ptarg+ntarg+team,
             data=covariates2[covariates2$setting == 'Unit C',],family=gaussian(link='identity'))
 summary(regA);summary(regB);summary(regC)
+# Residuals
+par(mfrow=c(2,2))
+plot(regA);plot(regB);plot(regC)
+par(mfrow=c(1,1))
 
 ########################################################################################################################
 
