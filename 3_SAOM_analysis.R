@@ -225,22 +225,22 @@ siena_effects1 <- siena_effects
 siena_effects2 <- siena_effects
 siena_effects3 <- siena_effects
 
-# Model 1: positive, negative and incongruent gossip
+# Model 1: Simple contagion
 for(i in 1:length(siena_effects1)){
   siena_effects1[[i]] <- includeEffects(siena_effects1[[i]],X,interaction1='gos_pos',type='eval')
   siena_effects1[[i]] <- includeEffects(siena_effects1[[i]],X,interaction1='gos_neg',type='eval')
-  siena_effects1[[i]] <- includeEffects(siena_effects1[[i]],X,interaction1='gos_inco',type='eval')
 }
 
-# Model 2: simple vs. reinforced gossip
+# Model 2: Complex contagion (multiple senders)
 for(i in 1:length(siena_effects2)){
   siena_effects2[[i]] <- includeEffects(siena_effects2[[i]],X,interaction1='gos_simp_pos',type='eval')
   siena_effects2[[i]] <- includeEffects(siena_effects2[[i]],X,interaction1='gos_simp_neg',type='eval')
   siena_effects2[[i]] <- includeEffects(siena_effects2[[i]],X,interaction1='gos_ampl_pos',type='eval')
   siena_effects2[[i]] <- includeEffects(siena_effects2[[i]],X,interaction1='gos_ampl_neg',type='eval')
+  siena_effects2[[i]] <- includeEffects(siena_effects2[[i]],X,interaction1='gos_inco',type='eval')
 }
 
-# Model 3: Interaction with number of targets 
+# Model 3: Complex contagion (multiple targets) 
 for(i in 1:length(siena_effects3)){
   siena_effects3[[i]] <- includeEffects(siena_effects3[[i]],X,interaction1='gos_pos',type='eval')
   siena_effects3[[i]] <- includeEffects(siena_effects3[[i]],X,interaction1='gos_neg',type='eval')
