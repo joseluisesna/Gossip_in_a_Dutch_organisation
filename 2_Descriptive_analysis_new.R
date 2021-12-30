@@ -205,7 +205,7 @@ ggplot(data=dgrs,aes(x=1,y=Outdegree,fill=Employee))+
   geom_flat_violin(position = position_nudge(x=.25,y=0),adjust=1,trim=FALSE,alpha=.35)+
   geom_boxplot(width=.4,alpha=.5)+
   facet_wrap(unit~type)+
-  xlab('')+labs(fill='',colour='')+
+  xlab('')+ylab('Indegree')+labs(fill='',colour='')+
   scale_colour_manual(values = c('dodgerblue','firebrick2'))+
   scale_fill_manual(values = c('steelblue','tomato'))+
   no.background +
