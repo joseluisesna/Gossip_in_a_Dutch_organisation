@@ -13,6 +13,8 @@ R (code was last run with R version 4.1.2 in RStudio 2021.09.0)
 - igraph (1.2.10)
 - plot3D (1.4)
 - ggpubr (0.4.0)
+- lmtest (0.9-39)
+- sandwich (3.0-1)
 
 **File list**
 
