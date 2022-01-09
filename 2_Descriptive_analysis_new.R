@@ -7,6 +7,7 @@
 
 # R PACKAGES REQUIRED
 library(tidyverse);library(tidyr);library(sna);library(igraph);library(plot3D);library(ggpubr)
+library(lmtest);library(sandwich)
 
 # DATA LOADING
 rm(list=ls())
@@ -625,6 +626,11 @@ plot(regC)
 dev.off()
 
 par(mfrow=c(1,1))
+
+# Results using robust standard errors (sandwich estimators) - HC1 formula
+coeftest(regA,vcov. = vcovHC(regA,type='HC1'))
+coeftest(regB,vcov. = vcovHC(regB,type='HC1'))
+coeftest(regC,vcov. = vcovHC(regC,type='HC1'))
 
 ########################################################################################################################
 
