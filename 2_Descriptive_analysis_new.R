@@ -250,10 +250,6 @@ ggarrange(p1,p2,p3,p4,
           nrow=4,ncol=1)
 dev.off()
 
-
-
-
-
 ########################################################################################################################
 
 # DESCRIPTIVE ANALYSIS OF FRIENDSHIP: CROSS-SECTIONAL
