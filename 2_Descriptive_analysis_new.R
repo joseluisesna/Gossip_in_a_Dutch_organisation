@@ -6,8 +6,7 @@
 ########################################################################################################################
 
 # R PACKAGES REQUIRED
-library(tidyverse);library(tidyr);library(sna);library(igraph);library(plot3D);library(ggpubr)
-library(lmtest);library(sandwich)
+library(tidyverse);library(sna);library(igraph);library(plot3D);library(ggpubr);library(lmtest);library(sandwich)
 
 # DATA LOADING
 rm(list=ls())
@@ -182,17 +181,6 @@ t.test(dgrs[dgrs$exiting == 0,]$mix_gossip,
        dgrs[dgrs$exiting == 1,]$mix_gossip)
 
 # Visualisation
-dgrs <- gather(dgrs,key='type',value='Outdegree',-c('ID','unit','exiting'))
-
-dgrs$unit <- factor(dgrs$unit,levels=c('A','B','C'),labels=c('Unit A','Unit B','Unit C'))
-dgrs$type <- factor(dgrs$type,levels=c('friendship','pos_gossip','neg_gossip','mix_gossip'),
-       labels=c('Friendship','Positive gossip','Negative gossip','Mixed gossip'))
-dgrs$Employee <- factor(dgrs$exiting,levels=c(0,1),labels=c('Stayed','Left'))
-
-source("https://raw.githubusercontent.com/datavizpyr/data/master/half_flat_violinplot.R")
-p2data <- "https://raw.githubusercontent.com/datavizpyr/data/master/palmer_penguin_species.tsv"
-penguins_df <- read_tsv(p2data)
-
 no.background <- theme_bw()+
   theme(plot.background=element_blank(),panel.grid.major=element_blank(),
         panel.grid.minor=element_blank(),panel.border=element_blank())+
@@ -200,22 +188,71 @@ no.background <- theme_bw()+
   theme(strip.text.x=element_text(colour='white',face='bold'))+
   theme(strip.background=element_rect(fill='black'))
 
-jpeg(filename='exiting.jpeg',width=7,height=7,units='in',res=500)
-ggplot(data=dgrs,aes(x=1,y=Outdegree,fill=Employee))+ 
-  geom_point(aes(color=Employee),position = position_jitterdodge(dodge.width = 0, jitter.width = 0.75))+
+# For violins plots
+source("https://raw.githubusercontent.com/datavizpyr/data/master/half_flat_violinplot.R")
+p2data <- "https://raw.githubusercontent.com/datavizpyr/data/master/palmer_penguin_species.tsv"
+penguins_df <- read_tsv(p2data)
+
+dgrs$Employee <- factor(dgrs$exiting,levels=c(0,1),labels=c('Stayed','Left'))
+dgrs$unit <- factor(dgrs$unit,levels=c('A','B','C'),labels=c('Unit A','Unit B','Unit C'))
+
+p1 <- ggplot(data=dgrs,aes(x=Employee,group=Employee,y=friendship,colour=Employee,fill=Employee))+
+  geom_point(position = position_jitterdodge(dodge.width = 0, jitter.width = 0.75),size=2)+ 
   geom_flat_violin(position = position_nudge(x=.25,y=0),adjust=1,trim=FALSE,alpha=.35)+
-  geom_boxplot(width=.4,alpha=.5)+
-  facet_wrap(unit~type)+
-  xlab('')+ylab('Indegree')+labs(fill='',colour='')+
+  geom_boxplot(colour='black',width=.4,alpha=.5)+
+  geom_signif(comparisons = list(c("Stayed", "Left")),map_signif_level=TRUE,textsize=4,colour='black')+
+  facet_wrap(~unit,scales='free')+
+  no.background +
+  labs(fill='',colour='')+xlab('')+ylab('Friendship')+
   scale_colour_manual(values = c('dodgerblue','firebrick2'))+
   scale_fill_manual(values = c('steelblue','tomato'))+
+  theme(axis.title.x=element_blank(),axis.text.x=element_blank(),axis.ticks.x=element_blank())
+
+p2 <- ggplot(data=dgrs,aes(x=Employee,group=Employee,y=pos_gossip,colour=Employee,fill=Employee))+
+  geom_point(position = position_jitterdodge(dodge.width = 0, jitter.width = 0.75),size=2)+ 
+  geom_flat_violin(position = position_nudge(x=.25,y=0),adjust=1,trim=FALSE,alpha=.35)+
+  geom_boxplot(colour='black',width=.4,alpha=.5)+
+  geom_signif(comparisons = list(c("Stayed", "Left")),map_signif_level=TRUE,textsize=4,colour='black')+
+  facet_wrap(~unit,scales='free')+
   no.background +
-  theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())+
-  theme(legend.position = "bottom", legend.justification = "center")+
-  ylim(c(-5,20))
+  labs(fill='',colour='')+xlab('')+ylab('Positive gossip')+
+  scale_colour_manual(values = c('dodgerblue','firebrick2'))+
+  scale_fill_manual(values = c('steelblue','tomato'))+
+  theme(axis.title.x=element_blank(),axis.text.x=element_blank(),axis.ticks.x=element_blank())
+
+p3 <- ggplot(data=dgrs,aes(x=Employee,group=Employee,y=neg_gossip,colour=Employee,fill=Employee))+
+  geom_point(position = position_jitterdodge(dodge.width = 0, jitter.width = 0.75),size=2)+ 
+  geom_flat_violin(position = position_nudge(x=.25,y=0),adjust=1,trim=FALSE,alpha=.35)+
+  geom_boxplot(colour='black',width=.4,alpha=.5)+
+  geom_signif(comparisons = list(c("Stayed", "Left")),map_signif_level=TRUE,textsize=4,colour='black')+
+  facet_wrap(~unit,scales='free')+
+  no.background +
+  labs(fill='',colour='')+xlab('')+ylab('Negative gossip')+
+  scale_colour_manual(values = c('dodgerblue','firebrick2'))+
+  scale_fill_manual(values = c('steelblue','tomato'))+
+  theme(axis.title.x=element_blank(),axis.text.x=element_blank(),axis.ticks.x=element_blank())
+
+p4 <- ggplot(data=dgrs,aes(x=Employee,group=Employee,y=mix_gossip,colour=Employee,fill=Employee))+
+  geom_point(position = position_jitterdodge(dodge.width = 0, jitter.width = 0.75),size=2)+ 
+  geom_flat_violin(position = position_nudge(x=.25,y=0),adjust=1,trim=FALSE,alpha=.35)+
+  geom_boxplot(colour='black',width=.4,alpha=.5)+
+  geom_signif(comparisons = list(c("Stayed", "Left")),map_signif_level=TRUE,textsize=4,colour='black')+
+  facet_wrap(~unit,scales='free')+
+  no.background +
+  labs(fill='',colour='')+xlab('')+ylab('Mixed gossip')+
+  scale_colour_manual(values = c('dodgerblue','firebrick2'))+
+  scale_fill_manual(values = c('steelblue','tomato'))+
+  theme(axis.title.x=element_blank(),axis.text.x=element_blank(),axis.ticks.x=element_blank())
+
+jpeg(filename='exiting.jpeg',width=8,height=8,units='in',res=500)
+ggarrange(p1,p2,p3,p4,
+          common.legend = TRUE,
+          nrow=4,ncol=1)
 dev.off()
+
+
+
+
 
 ########################################################################################################################
 
