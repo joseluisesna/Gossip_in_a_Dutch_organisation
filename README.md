@@ -7,7 +7,6 @@ Code to Estévez, Wittek, Giardini, Ellwardt & Krause (under review) 'Workplace 
 R (code was last run with R version 4.1.2 in RStudio 2021.09.0)
 - RSiena (1.3.0.1)
 - tidyverse (1.3.1)
-- tidyr (1.1.4)
 - ggplot2 (3.3.5)
 - sna (2.6)
 - igraph (1.2.10)
