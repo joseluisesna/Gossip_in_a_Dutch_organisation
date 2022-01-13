@@ -106,13 +106,23 @@ write.table(multigroup_results3[c(1:6,24,8,7,13:21,12,11,9:10,22:23,25:26),],
 
 # Check homogeneity
 timetest.1 <- sienaTimeTest(siena_model_all1)
-summary(timetest.1)
+het_results1 <- as.data.frame(summary(timetest.1)[[3]])
+het_results1$sig <- sig(het_results1$`p-value`)
 
 timetest.2 <- sienaTimeTest(siena_model_all2)
-summary(timetest.2)
+het_results2 <- as.data.frame(summary(timetest.2)[[3]])
+het_results2$sig <- sig(het_results2$`p-value`)
 
 timetest.3 <- sienaTimeTest(siena_model_all3)
-summary(timetest.3)
+het_results3 <- as.data.frame(summary(timetest.3)[[3]])
+het_results3$sig <- sig(het_results3$`p-value`)
+
+write.table(het_results1[c(1:3,19,5,4,10:18,9,8,6,7),],
+            'het_results1.csv',sep=',',row.names=TRUE)
+write.table(het_results2[c(1:3,22,5,4,13:21,12,11,6:10),],
+            'het_results2.csv',sep=',',row.names=TRUE)
+write.table(het_results3[c(1:3,21,5,4,10:18,9,8,6,7,19:20,22:23),],
+            'het_results3.csv',sep=',',row.names=TRUE)
 
 ########################################################################################################################
 
