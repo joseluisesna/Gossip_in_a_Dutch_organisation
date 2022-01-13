@@ -1,6 +1,6 @@
 ########################################################################################################################
 ## THE EFFECTS OF GOSSIP ON FRIENDSHIP IN A DUTCH CHILDCARE ORGANISATION
-## SAOM analysis - all three units together (4)
+## SAOM analysis - combined networks (4)
 ## R script written by Jose Luis Estevez (Masaryk University & Linkoping University)
 ## Date: December 30th, 2021
 ########################################################################################################################
