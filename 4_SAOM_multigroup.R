@@ -31,7 +31,7 @@ groupeff <- includeEffects(groupeff,altX,egoX,simX,interaction1='age')
 groupeff <- includeEffects(groupeff,altX,egoX,simX,interaction1='tenure')
 groupeff <- includeEffects(groupeff,altX,egoX,simX,interaction1='workhours')
 groupeff <- includeEffects(groupeff,X,interaction1='sameteam')
-#groupeff <- includeEffects(groupeff,X,interaction1='comm_freq')
+groupeff <- includeEffects(groupeff,X,interaction1='comm_freq')
 
 groupeff1 <- groupeff2 <- groupeff3 <- groupeff
 
