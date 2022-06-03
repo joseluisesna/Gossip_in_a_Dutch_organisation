@@ -2,7 +2,7 @@
 ## THE EFFECTS OF GOSSIP ON FRIENDSHIP IN A DUTCH CHILDCARE ORGANISATION
 ## Descriptive analysis (2)
 ## R script written by Jose Luis Estevez (Masaryk University & Linkoping University)
-## Date: December 28th, 2021
+## Date: May 29th, 2022
 ########################################################################################################################
 
 # R PACKAGES REQUIRED
@@ -180,14 +180,6 @@ t.test(dgrs[dgrs$exiting == 0,]$neg_gossip,
 t.test(dgrs[dgrs$exiting == 0,]$mix_gossip,
        dgrs[dgrs$exiting == 1,]$mix_gossip)
 
-# Visualisation
-no.background <- theme_bw()+
-  theme(plot.background=element_blank(),panel.grid.major=element_blank(),
-        panel.grid.minor=element_blank(),panel.border=element_blank())+
-  theme(axis.line=element_line(color='black'))+
-  theme(strip.text.x=element_text(colour='white',face='bold'))+
-  theme(strip.background=element_rect(fill='black'))
-
 # For violins plots
 source("https://raw.githubusercontent.com/datavizpyr/data/master/half_flat_violinplot.R")
 p2data <- "https://raw.githubusercontent.com/datavizpyr/data/master/palmer_penguin_species.tsv"
@@ -324,6 +316,71 @@ sum(A_change > 0);sum(B_change > 0);sum(C_change > 0)
 
 ########################################################################################################################
 
+# VISUALISATION OF THE FRIENDSHIP NETWORKS
+
+# Turn matrices into igraph objects
+ga1 <- graph_from_adjacency_matrix(ntw$friendship$AW1,mode='directed')
+ga2 <- graph_from_adjacency_matrix(ntw$friendship_imp$AW2,mode='directed')
+gb1 <- graph_from_adjacency_matrix(ntw$friendship$BW1,mode='directed')
+gb2 <- graph_from_adjacency_matrix(ntw$friendship_imp$BW2,mode='directed')
+gc1 <- graph_from_adjacency_matrix(ntw$friendship$CW1,mode='directed')
+gc2 <- graph_from_adjacency_matrix(ntw$friendship_imp$CW2,mode='directed')
+
+# Layout for the nodes
+layoutA <- layout_with_kk(graph_from_adjacency_matrix(ntw$friendship$AW1 + ntw$friendship_imp$AW2,weighted = NULL))
+layoutB <- layout_with_kk(graph_from_adjacency_matrix(ntw$friendship$BW1 + ntw$friendship_imp$BW2,weighted = NULL))
+layoutC <- layout_with_kk(graph_from_adjacency_matrix(ntw$friendship$CW1 + ntw$friendship_imp$CW2,weighted = NULL))
+
+# Visualisation
+jpeg(filename='Ntw_evolution.jpeg',width=8.5,height=12,units='in',res=1000)
+par(mfrow=c(3,2)) # A 3x2 grid
+# Unit A
+plot(ga1,
+     vertex.label=NA,vertex.size=7.5,
+     vertex.color=ifelse(V(ga1)$name %in% unitA1,'royalblue',grey(0.5,0.2)),
+     vertex.frame.color=ifelse(V(ga1)$name %in% unitA1,'black',grey(0,0.5)),
+     edge.arrow.size=.2,edge.color=gray(0.35),edge.lty=1,
+     layout=layoutA,main='Unit A\n(Wave 1)')
+plot(ga2,
+     vertex.label=NA,vertex.size=7.5,
+     vertex.color=ifelse(V(ga2)$name %in% unitA2,'royalblue',grey(0.5,0.2)),
+     vertex.frame.color=ifelse(V(ga2)$name %in% unitA2,'black',grey(0,0.5)),
+     edge.arrow.size=.2,edge.color=gray(0.35),edge.lty=1,
+     layout=layoutA,main='Unit A\n(Wave 2)')
+# Unit B
+plot(gb1,
+     vertex.label=NA,vertex.size=7.5,
+     vertex.color=ifelse(V(gb1)$name %in% unitB1,'royalblue',grey(0.5,0.2)),
+     vertex.frame.color=ifelse(V(gb1)$name %in% unitB1,'black',grey(0,0.5)),
+     edge.arrow.size=.2,edge.color=gray(0.35),edge.lty=1,
+     layout=layoutA,main='Unit B\n(Wave 1)')
+plot(gb2,
+     vertex.label=NA,vertex.size=7.5,
+     vertex.color=ifelse(V(gb2)$name %in% unitB2,'royalblue',grey(0.5,0.2)),
+     vertex.frame.color=ifelse(V(gb2)$name %in% unitB2,'black',grey(0,0.5)),
+     edge.arrow.size=.2,edge.color=gray(0.35),edge.lty=1,
+     layout=layoutA,main='Unit B\n(Wave 2)')
+# Unit C
+plot(gc1,
+     vertex.label=NA,vertex.size=7.5,
+     vertex.color=ifelse(V(gc1)$name %in% unitC1,'royalblue',grey(0.5,0.2)),
+     vertex.frame.color=ifelse(V(gc1)$name %in% unitC1,'black',grey(0,0.5)),
+     edge.arrow.size=.2,edge.color=gray(0.35),edge.lty=1,
+     layout=layoutA,main='Unit C\n(Wave 1)')
+plot(gc2,
+     vertex.label=NA,vertex.size=7.5,
+     vertex.color=ifelse(V(gc2)$name %in% unitC2,'royalblue',grey(0.5,0.2)),
+     vertex.frame.color=ifelse(V(gc2)$name %in% unitC2,'black',grey(0,0.5)),
+     edge.arrow.size=.2,edge.color=gray(0.35),edge.lty=1,
+     layout=layoutA,main='Unit C\n(Wave 2)')
+# Legend
+legend("bottomright",bty="o",legend=c('Present','Absent'),
+       pch=21,pt.bg=c('royalblue',gray(0.5,0.2)),
+       pt.cex=1.25, cex=1.25, ncol=1)
+dev.off()
+
+########################################################################################################################
+
 # DESCRIPTIVE ANALYSIS OF GOSSIP
 # Number of (positive/negative/mixed) gossip triads per unit
 nrow(gossip$A[gossip$A$tone == '+',])
@@ -361,7 +418,8 @@ gossip$Bnm <- gossip$Bn + gossip$Bm
 gossip$Cnm <- gossip$Cn + gossip$Cm
 
 # Projections (all, simple, and complex gossip)
-gossipA <- gossipS <- gossipC <- gossip[c(4:5,7:8,10:11,13:15)] # for pos., neg., and the mixture of neg. and mixed gossip)
+
+gossipA <- gossipS <- gossipC <- gossip[c('Ap','An','Bp','Bn','Cp','Cn','Anm','Bnm','Cnm')] # for pos., neg., and the mixture of neg. and mixed gossip)
 gossipI <- list() # Incongruent gossip (when heard both positve and neg. or mixed)
 
 gossipA <- lapply(gossipA,dichotomise,zero=0,one=1:30,na=NA)
@@ -384,60 +442,10 @@ gos_desc$C <- c(sum(gossipA$Cp,na.rm=TRUE),sum(gossipC$Cp,na.rm=TRUE),
 write.table(gos_desc,'gossip_desc.csv',sep=',')
 
 # Extraction of gossip outdegrees (hearing about many targets equally)
-gossip_deg <- lapply(gossip[c(4,7,10,13:15)],dichotomise,zero=0,one=1:30,na=NA)
+gossip_deg <- lapply(gossip[c('Ap','Bp','Cp','Anm','Bnm','Cnm')],dichotomise,zero=0,one=1:30,na=NA)
 gossip_deg <- lapply(gossip_deg,sna::degree,cmode='outdegree')
 unlist(lapply(gossip_deg,mean))
 unlist(lapply(gossip_deg,range))
-
-########################################################################################################################
-
-# DOES GOSSIP COME FROM FRIENDS (Sender)? IS POSITIVE GOSSIP ABOUT FRIENDS, AND NEG. GOSSIP ABOUT NON-FRIENDS (Target)?
-gossip$A$friendshipRS <- gossip$A$friendshipRT <- NA
-gossip$B$friendshipRS <- gossip$B$friendshipRT <- NA
-gossip$C$friendshipRS <- gossip$C$friendshipRT <- NA
-
-# Assign every gossip triplet whether receiver and sender are friends or not, and whether receiver and target are friends or not 
-for(i in seq_along(gossip$A$friendshipRS)){
-  gossip$A$friendshipRS[i] <- ntw$friendship$AW1[paste(gossip$A$receiver[i]),paste(gossip$A$sender[i])]
-  gossip$A$friendshipRT[i] <- ntw$friendship$AW1[paste(gossip$A$receiver[i]),paste(gossip$A$target[i])]
-}
-for(i in seq_along(gossip$B$friendshipRS)){
-  gossip$B$friendshipRS[i] <- ntw$friendship$BW1[paste(gossip$B$receiver[i]),paste(gossip$B$sender[i])]
-  gossip$B$friendshipRT[i] <- ntw$friendship$BW1[paste(gossip$B$receiver[i]),paste(gossip$B$target[i])]
-}
-for(i in seq_along(gossip$C$friendshipRS)){
-  gossip$C$friendshipRS[i] <- ntw$friendship$CW1[paste(gossip$C$receiver[i]),paste(gossip$C$sender[i])]
-  gossip$C$friendshipRT[i] <- ntw$friendship$CW1[paste(gossip$C$receiver[i]),paste(gossip$C$target[i])]
-}
-
-# Merge data from all three units
-gossip$A$unit <- 'Unit A'
-gossip$B$unit <- 'Unit B'
-gossip$C$unit <- 'Unit C'
-gossip$all <- rbind(gossip$A,gossip$B,gossip$C)
-
-# Create a variable telling the type of relationships between receiver, sender, and target
-gossip$all$relations <- ifelse(gossip$all$friendshipRS == 1 & gossip$all$friendshipRT == 1, 'Friendship with both',
-                               ifelse(gossip$all$friendshipRS == 1 & gossip$all$friendshipRT == 0, 'Friendship with sender',
-                                      ifelse(gossip$all$friendshipRS == 0 & gossip$all$friendshipRT == 1, 'Friendship with target',
-                                             ifelse(gossip$all$friendshipRS == 0 & gossip$all$friendshipRT == 0, 'Friendship with neither',NA))))
-gossip$all$relations[is.na(gossip$all$relations)] <- 'Tie missing'
-gossip$all$relations <- factor(gossip$all$relations,
-                               levels=c('Friendship with sender','Friendship with target','Friendship with both',
-                                        'Friendship with neither','Tie missing'))
-
-gossip$all$Tone <- factor(gossip$all$tone,levels=c('+','-','mix'),labels=c('Positive','Negative','Mixed'))
-
-# Visualisation
-jpeg(filename='type of gossip.jpeg',width=8,height=7,units='in',res=500)
-ggplot(data=gossip$all)+
-  geom_bar(aes(x=Tone,fill=relations),colour='black',position='stack',alpha=.6)+
-  facet_wrap(~unit)+
-  scale_fill_manual(values = c('dodgerblue','orange','chartreuse3','firebrick2','grey'))+
-  xlab('Type of the gossip')+ylab('Count')+labs(fill='')+
-  no.background+
-  theme(legend.position="top", legend.justification="center")
-dev.off()
 
 ########################################################################################################################
 
@@ -671,6 +679,7 @@ rm(change_fr);rm(desc_biv);rm(dgrs);rm(fri_desc);rm(GeomFlatViolin);rm(gos_desc)
 rm(penguins_df);rm(resp);rm(sum_w1);rm(sum_w2);rm(A_change);rm(B_change);rm(C_change);rm(exiting);rm(i);rm(j);rm(p2data);
 rm(unitA1c);rm(unitB1c);rm(unitC1c);rm(unitA2c);rm(unitB2c);rm(unitC2c);rm(x);rm(describeNet);rm(dichotomise);rm(enlarge);
 rm(geom_flat_violin);rm(Jaccard);rm(p1);rm(p2);rm(p3);rm(p4);rm(p5);rm(p6);rm(p7);rm(p8);rm(regA);rm(regB);rm(regC)
+rm(ga1);rm(ga2);rm(gb1);rm(gb2);rm(gc1);rm(gc2);rm(layoutA);rm(layoutB);rm(layoutC)
 
 ########################################################################################################################
 

@@ -2,11 +2,11 @@
 ## THE EFFECTS OF GOSSIP ON FRIENDSHIP IN A DUTCH CHILDCARE ORGANISATION
 ## Data tidying (1)
 ## R script written by Jose Luis Estevez (Masaryk University & Linkoping University)
-## Date: December 23rd, 2021
+## Date: May 29th, 2022
 ########################################################################################################################
 
 # R PACKAGES REQUIRED
-library(igraph)
+library(igraph);library(ggplot2)
 
 # DATA LOADING
 rm(list=ls())
@@ -280,7 +280,71 @@ ntw$communication['C'] <- lapply(ntw$communication['C'],enlarge,unitC,NA)
 
 ########################################################################################################################
 
+# DOES GOSSIP COME FROM FRIENDS (Sender)? IS POSITIVE GOSSIP ABOUT FRIENDS, AND NEG. GOSSIP ABOUT NON-FRIENDS (Target)?
+gossip$A$friendshipRS <- gossip$A$friendshipRT <- NA
+gossip$B$friendshipRS <- gossip$B$friendshipRT <- NA
+gossip$C$friendshipRS <- gossip$C$friendshipRT <- NA
+
+# Assign every gossip triplet whether receiver and sender are friends or not, and whether receiver and target are friends or not 
+for(i in seq_along(gossip$A$friendshipRS)){
+  gossip$A$friendshipRS[i] <- ntw$friendship$AW1[paste(gossip$A$receiver[i]),paste(gossip$A$sender[i])]
+  gossip$A$friendshipRT[i] <- ntw$friendship$AW1[paste(gossip$A$receiver[i]),paste(gossip$A$target[i])]
+}
+for(i in seq_along(gossip$B$friendshipRS)){
+  gossip$B$friendshipRS[i] <- ntw$friendship$BW1[paste(gossip$B$receiver[i]),paste(gossip$B$sender[i])]
+  gossip$B$friendshipRT[i] <- ntw$friendship$BW1[paste(gossip$B$receiver[i]),paste(gossip$B$target[i])]
+}
+for(i in seq_along(gossip$C$friendshipRS)){
+  gossip$C$friendshipRS[i] <- ntw$friendship$CW1[paste(gossip$C$receiver[i]),paste(gossip$C$sender[i])]
+  gossip$C$friendshipRT[i] <- ntw$friendship$CW1[paste(gossip$C$receiver[i]),paste(gossip$C$target[i])]
+}
+
+# Merge data from all three units
+gossip$A$unit <- 'Unit A'
+gossip$B$unit <- 'Unit B'
+gossip$C$unit <- 'Unit C'
+gossip$all <- rbind(gossip$A,gossip$B,gossip$C)
+
+# Create a variable telling the type of relationships between receiver, sender, and target
+gossip$all$relations <- ifelse(gossip$all$friendshipRS == 1 & gossip$all$friendshipRT == 1, 'Friendship with both',
+                               ifelse(gossip$all$friendshipRS == 1 & gossip$all$friendshipRT == 0, 'Friendship with sender',
+                                      ifelse(gossip$all$friendshipRS == 0 & gossip$all$friendshipRT == 1, 'Friendship with target',
+                                             ifelse(gossip$all$friendshipRS == 0 & gossip$all$friendshipRT == 0, 'Friendship with neither',NA))))
+gossip$all$relations[is.na(gossip$all$relations)] <- 'Tie missing'
+gossip$all$relations <- factor(gossip$all$relations,
+                               levels=c('Friendship with sender','Friendship with target','Friendship with both',
+                                        'Friendship with neither','Tie missing'))
+
+gossip$all$Tone <- factor(gossip$all$tone,levels=c('+','-','mix'),labels=c('Positive','Negative','Mixed'))
+
+# Visualisation
+no.background <- theme_bw()+
+  theme(plot.background=element_blank(),panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),panel.border=element_blank())+
+  theme(axis.line=element_line(color='black'))+
+  theme(strip.text.x=element_text(colour='white',face='bold'))+
+  theme(strip.background=element_rect(fill='black'))
+
+# Visualisation
+jpeg(filename='type of gossip.jpeg',width=8,height=7,units='in',res=500)
+ggplot(data=gossip$all)+
+  geom_bar(aes(x=Tone,fill=relations),colour='black',position='stack',alpha=.6)+
+  facet_wrap(~unit)+
+  scale_fill_manual(values = c('dodgerblue','orange','chartreuse3','firebrick2','grey'))+
+  xlab('Type of the gossip')+ylab('Count')+labs(fill='')+
+  no.background+
+  theme(legend.position="top", legend.justification="center")
+dev.off()
+
+########################################################################################################################
+
 # GOSSIP, DATA TRANSFORMATIONS
+
+# If only want gossip from friends (it is a condition that the gossip receiver considers the sender a friend)
+#gossip$A <- gossip$A[!is.na(gossip$A$friendshipRS) & gossip$A$friendshipRS == 1,]
+#gossip$B <- gossip$B[!is.na(gossip$B$friendshipRS) & gossip$B$friendshipRS == 1,]
+#gossip$C <- gossip$C[!is.na(gossip$C$friendshipRS) & gossip$C$friendshipRS == 1,]
+
 # Projections: Receiver-target gossip networks (positive, negative and mixed gossip separately)
 gossip$Ap <- as.matrix(get.adjacency(graph.data.frame(gossip$A[gossip$A$tone == '+',c('receiver','target')])))
 gossip$An <- as.matrix(get.adjacency(graph.data.frame(gossip$A[gossip$A$tone == '-',c('receiver','target')])))
@@ -339,7 +403,7 @@ gossip$Cn <- enlarge(gossip$Cn,unitC,NA)
 gossip$Cm <- enlarge(gossip$Cm,unitC,NA)
 
 # Diagonal to NA
-for(i in 4:length(gossip)){
+for(i in 5:length(gossip)){
   diag(gossip[[i]]) <- NA
 }
 

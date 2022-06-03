@@ -2,7 +2,7 @@
 ## THE EFFECTS OF GOSSIP ON FRIENDSHIP IN A DUTCH CHILDCARE ORGANISATION
 ## SAOM analysis (3)
 ## R script written by Jose Luis Estevez (Masaryk University & Linkoping University)
-## Date: December 29th, 2021
+## Date: May 29th, 2022
 ########################################################################################################################
 
 # R PACKAGES REQUIRED
