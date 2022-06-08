@@ -2,7 +2,7 @@
 ## THE EFFECTS OF GOSSIP ON FRIENDSHIP IN A DUTCH CHILDCARE ORGANISATION
 ## SAOM analysis - Multi-group results (4)
 ## R script written by Jose Luis Estevez (Masaryk University & Linkoping University)
-## Date: May 29th, 2022
+## Date: June 8th, 2022
 ########################################################################################################################
 
 # R PACKAGES REQUIRED
@@ -121,14 +121,17 @@ write.table(multigroup_results3[c(1:6,24,8,7,13:21,12,11,9:10,22:23,25:26),],
 # Check homogeneity
 timetest.1 <- sienaTimeTest(siena_model_all1)
 het_results1 <- as.data.frame(summary(timetest.1)[[3]])
+het_results1$`p-value` <- p.adjust(het_results1$`p-value`,method='BH') # Adjust p values with Benjamini's & Hochberg's (BH) method
 het_results1$sig <- sig(het_results1$`p-value`)
 
 timetest.2 <- sienaTimeTest(siena_model_all2)
 het_results2 <- as.data.frame(summary(timetest.2)[[3]])
+het_results2$`p-value` <- p.adjust(het_results2$`p-value`,method='BH') # Adjust p values with Benjamini's & Hochberg's (BH) method
 het_results2$sig <- sig(het_results2$`p-value`)
 
 timetest.3 <- sienaTimeTest(siena_model_all3)
 het_results3 <- as.data.frame(summary(timetest.3)[[3]])
+het_results3$`p-value` <- p.adjust(het_results3$`p-value`,method='BH') # Adjust p values with Benjamini's & Hochberg's (BH) method
 het_results3$sig <- sig(het_results3$`p-value`)
 
 write.table(het_results1[c(1:3,19,5,4,10:18,9,8,6,7),],
