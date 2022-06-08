@@ -2,7 +2,7 @@
 ## THE EFFECTS OF GOSSIP ON FRIENDSHIP IN A DUTCH CHILDCARE ORGANISATION
 ## Additions based on reviewers' comments (3.1)
 ## R script written by Jose Luis Estevez (Masaryk University & Linkoping University)
-## Date: May 29th, 2022
+## Date: June 8th, 2022
 ########################################################################################################################
 
 # R PACKAGES REQUIRED
@@ -87,17 +87,22 @@ results$B_p <- B_qap$pgreqabs
 results$C_est <- C_qap$coefficients
 results$C_p <- C_qap$pgreqabs
 
+# Adjust p values with Benjamini's & Hochberg's (BH) method
+results$A_p <- p.adjust(results$A_p,method = 'BH')
+results$B_p <- p.adjust(results$B_p,method = 'BH')
+results$C_p <- p.adjust(results$C_p,method = 'BH')
+
 sig <- function(x){
   ifelse(x < .001,'***',
          ifelse(x < .01,'**',
                 ifelse(x < .05,'*','')))
 }
 
-results$A_p <- sig(results$A_p )
-results$B_p <- sig(results$B_p )
-results$C_p <- sig(results$C_p )
+results$A_s <- sig(results$A_p)
+results$B_s <- sig(results$B_p)
+results$C_s <- sig(results$C_p)
 
-write.csv(results,'QAPs.csv',row.names=FALSE)
+write.csv(results[,c('effect','A_est','A_p','A_s','B_est','B_p','B_s','C_est','C_p','C_s')],'QAPs.csv',row.names=FALSE)
 
 ########################################################################################################################
 
