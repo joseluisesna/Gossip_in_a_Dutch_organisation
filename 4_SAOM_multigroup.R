@@ -81,18 +81,32 @@ siena_model_all3 <- siena07RunToConvergence(dat=altogether,eff=groupeff3,alg=alg
 # PRESENTATION OF RESULTS
 multigroup_results1 <- data.frame(effect=siena_model_all1$effects$effectName,
                                   theta=round(siena_model_all1$theta,2),SE_A=round(siena_model_all1$se,2),
-                                  p=round(2*(1-pnorm(abs(siena_model_all1$theta)/siena_model_all1$se)),3),
+                                  p=2*(1-pnorm(abs(siena_model_all1$theta)/siena_model_all1$se)),
                                   s=sig(2*(1-pnorm(abs(siena_model_all1$theta)/siena_model_all1$se))))
 
 multigroup_results2 <- data.frame(effect=siena_model_all2$effects$effectName,
                                   theta=round(siena_model_all2$theta,2),SE_A=round(siena_model_all2$se,2),
-                                  p=round(2*(1-pnorm(abs(siena_model_all2$theta)/siena_model_all2$se)),3),
+                                  p=2*(1-pnorm(abs(siena_model_all2$theta)/siena_model_all2$se)),
                                   s=sig(2*(1-pnorm(abs(siena_model_all2$theta)/siena_model_all2$se))))
 
 multigroup_results3 <- data.frame(effect=siena_model_all3$effects$effectName,
                                   theta=round(siena_model_all3$theta,2),SE_A=round(siena_model_all3$se,2),
-                                  p=round(2*(1-pnorm(abs(siena_model_all3$theta)/siena_model_all3$se)),3),
+                                  p=2*(1-pnorm(abs(siena_model_all3$theta)/siena_model_all3$se)),
                                   s=sig(2*(1-pnorm(abs(siena_model_all3$theta)/siena_model_all3$se))))
+
+# Adjust p values with Benjamini's & Hochberg's (BH) method
+# Model 1
+multigroup_results1$p <- p.adjust(multigroup_results1$p, method='BH')
+multigroup_results1$s <- sig(multigroup_results1$p)
+multigroup_results1
+# Model 2
+multigroup_results2$p <- p.adjust(multigroup_results2$p, method='BH')
+multigroup_results2$s <- sig(multigroup_results2$p)
+multigroup_results2
+# Modle 3
+multigroup_results3$p <- p.adjust(multigroup_results3$p, method='BH')
+multigroup_results3$s <- sig(multigroup_results3$p)
+multigroup_results3
 
 # Results
 write.table(multigroup_results1[c(1:6,22,8,7,13:21,12,11,9:10),],
