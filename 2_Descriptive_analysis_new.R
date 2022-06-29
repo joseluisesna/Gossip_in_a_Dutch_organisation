@@ -332,7 +332,7 @@ layoutB <- layout_with_kk(graph_from_adjacency_matrix(ntw$friendship$BW1 + ntw$f
 layoutC <- layout_with_kk(graph_from_adjacency_matrix(ntw$friendship$CW1 + ntw$friendship_imp$CW2,weighted = NULL))
 
 # Visualisation
-jpeg(filename='Ntw_evolution.jpeg',width=8.5,height=12,units='in',res=1000)
+jpeg(filename='Ntw_evolution.jpeg',width=10,height=12,units='in',res=1000)
 par(mfrow=c(3,2)) # A 3x2 grid
 # Unit A
 plot(ga1,
@@ -374,7 +374,7 @@ plot(gc2,
      edge.arrow.size=.2,edge.color=gray(0.35),edge.lty=1,
      layout=layoutA,main='Unit C\n(Wave 2)')
 # Legend
-legend("bottomright",bty="o",legend=c('Present','Absent'),
+legend("bottomright",bty="o",legend=c('Present','Joiner/Leaver'),
        pch=21,pt.bg=c('royalblue',gray(0.5,0.2)),
        pt.cex=1.25, cex=1.25, ncol=1)
 dev.off()
