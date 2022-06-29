@@ -375,8 +375,10 @@ plot(gc2,
      layout=layoutA,main='Unit C\n(Wave 2)')
 # Legend
 legend("bottomright",bty="o",legend=c('Present','Joiner/Leaver'),
-       pch=21,pt.bg=c('royalblue',gray(0.5,0.2)),
-       pt.cex=1.25, cex=1.25, ncol=1)
+       pch=21,
+       col=c('black',grey(0,0.5)),
+       pt.bg=c('royalblue',gray(0.5,0.2)),
+       pt.cex=1.3, cex=1.3, ncol=1)
 dev.off()
 
 ########################################################################################################################
