@@ -340,7 +340,7 @@ jpeg(filename='GOFmodel1.jpeg',width=24,height=12,units='in',res=500)
 ggarrange(modelGOF[[1]][['Unit A']][[1]],modelGOF[[1]][['Unit A']][[2]],modelGOF[[1]][['Unit A']][[3]],modelGOF[[1]][['Unit A']][[4]],
           modelGOF[[1]][['Unit B']][[1]],modelGOF[[1]][['Unit B']][[2]],modelGOF[[1]][['Unit B']][[3]],modelGOF[[1]][['Unit B']][[4]],
           modelGOF[[1]][['Unit C']][[1]],modelGOF[[1]][['Unit C']][[2]],modelGOF[[1]][['Unit C']][[3]],modelGOF[[1]][['Unit C']][[4]],
-          labels=c('A','','','','B','','','','C','','',''),
+          labels=c('Unit A','','','','Unit B','','','','Unit C','','',''),
           ncol=4,nrow=3)
 dev.off()
 # Model 2
@@ -348,7 +348,7 @@ jpeg(filename='GOFmodel2.jpeg',width=24,height=12,units='in',res=500)
 ggarrange(modelGOF[[2]][['Unit A']][[1]],modelGOF[[2]][['Unit A']][[2]],modelGOF[[2]][['Unit A']][[3]],modelGOF[[2]][['Unit A']][[4]],
           modelGOF[[2]][['Unit B']][[1]],modelGOF[[2]][['Unit B']][[2]],modelGOF[[2]][['Unit B']][[3]],modelGOF[[2]][['Unit B']][[4]],
           modelGOF[[2]][['Unit C']][[1]],modelGOF[[2]][['Unit C']][[2]],modelGOF[[2]][['Unit C']][[3]],modelGOF[[2]][['Unit C']][[4]],
-          labels=c('A','','','','B','','','','C','','',''),
+          labels=c('Unit A','','','','Unit B','','','','Unit C','','',''),
           ncol=4,nrow=3)
 dev.off()
 # Model 3
@@ -356,7 +356,7 @@ jpeg(filename='GOFmodel3.jpeg',width=24,height=12,units='in',res=500)
 ggarrange(modelGOF[[3]][['Unit A']][[1]],modelGOF[[3]][['Unit A']][[2]],modelGOF[[3]][['Unit A']][[3]],modelGOF[[3]][['Unit A']][[4]],
           modelGOF[[3]][['Unit B']][[1]],modelGOF[[3]][['Unit B']][[2]],modelGOF[[3]][['Unit B']][[3]],modelGOF[[3]][['Unit B']][[4]],
           modelGOF[[3]][['Unit C']][[1]],modelGOF[[3]][['Unit C']][[2]],modelGOF[[3]][['Unit C']][[3]],modelGOF[[3]][['Unit C']][[4]],
-          labels=c('A','','','','B','','','','C','','',''),
+          labels=c('Unit A','','','','Unit B','','','','Unit C','','',''),
           ncol=4,nrow=3)
 dev.off()
 
