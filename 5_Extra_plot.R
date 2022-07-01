@@ -10,7 +10,7 @@ library(ggplot2)
 
 rm(list=ls())
 
-x <- c(seq(0,1.4,by=.14),c(0,0,.75,0.83,.89,.94,.97,.99,.995,.998,1))
+x <- c(seq(0,1.4,by=.14),c(0,0,.8,0.88,.93,.96,.975,.985,.995,.998,1))
 data <- as.data.frame(x)
 data$senders <- c(seq(0,10,by=1),seq(0,10,by=1))
 data$`Implicit model` <- c(rep('Reinforcement',11),rep('Threshold',11))
