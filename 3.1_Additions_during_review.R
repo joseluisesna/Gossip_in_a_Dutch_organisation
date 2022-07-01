@@ -2,7 +2,7 @@
 ## THE EFFECTS OF GOSSIP ON FRIENDSHIP IN A DUTCH CHILDCARE ORGANISATION
 ## Additions based on reviewers' comments (3.1)
 ## R script written by Jose Luis Estevez (Masaryk University & Linkoping University)
-## Date: June 8th, 2022
+## Date: May 29th, 2022
 ########################################################################################################################
 
 # R PACKAGES REQUIRED
@@ -86,11 +86,6 @@ results$B_est <- B_qap$coefficients
 results$B_p <- B_qap$pgreqabs
 results$C_est <- C_qap$coefficients
 results$C_p <- C_qap$pgreqabs
-
-# Adjust p values with Benjamini's & Hochberg's (BH) method
-results$A_p <- p.adjust(results$A_p,method = 'BH')
-results$B_p <- p.adjust(results$B_p,method = 'BH')
-results$C_p <- p.adjust(results$C_p,method = 'BH')
 
 sig <- function(x){
   ifelse(x < .001,'***',
