@@ -1,6 +1,6 @@
 # Gossip in a Dutch organisation
 
-Code to Estévez, J. L., Wittek, R., Giardini, F., Ellwardt, L. & Krause, R. W. (forthcoming) 'Workplace gossip and the evolution of friendship relations: The role of complex contagion'. *Social Network Analysis and Mining*. https://doi.org/10.1007/s13278-022-00923-7.
+Code to Estévez, J. L., Wittek, R., Giardini, F., Ellwardt, L. & Krause, R. W. (forthcoming) 'Workplace gossip and the evolution of friendship relations: The role of complex contagion'. *Social Network Analysis and Mining, 12*: 113. https://doi.org/10.1007/s13278-022-00923-7.
 
 **Software requirements**
 
