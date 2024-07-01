@@ -1,9 +1,14 @@
 # Gossip in a Dutch organisation
 
+[![R language](https://img.shields.io/badge/language-R-blue)](https://www.r-project.org/)
+[![NWO funding](https://img.shields.io/badge/funding-NWO-green)](https://www.nwo.nl/en/projects/024003025)
+[![ERC funding](https://img.shields.io/badge/funding-ERC-green)](https://cordis.europa.eu/project/id/648693)
+[![CC BY 4.0](https://img.shields.io/badge/license-CC_BY_4.0-red)](https://creativecommons.org/licenses/by/4.0/)
+
 Code used for the article:
 - Estévez, J. L., Wittek, R., Giardini, F., Ellwardt, L. & Krause, R. W. (2022) 'Workplace gossip and the evolution of friendship relations: The role of complex contagion'. *Social Network Analysis and Mining, 12*: 113. https://doi.org/10.1007/s13278-022-00923-7.
 
-**Software requirements**
+# Software requirements
 
 R (code was last run with R version 4.1.2 in RStudio 2021.09.0)
 - RSiena (1.3.0.1)
@@ -16,7 +21,7 @@ R (code was last run with R version 4.1.2 in RStudio 2021.09.0)
 - lmtest (0.9-39)
 - sandwich (3.0-1)
 
-**File list**
+# File list
 
 - 1_Data_tidying_new.R
 - 2_Descriptive_analysis_new.R
